@@ -61,11 +61,11 @@ function preload(){
 }
 
 function setup(){
-  createCanvas(600,300)
+  createCanvas(windowWidth,windowHeight)
     
   
    
-  
+  // console.log(bah)
   
    dino = createSprite(50,260,20,50);
    dino.addAnimation("running",dinocorrendo);
@@ -83,10 +83,10 @@ function setup(){
    dino.setCollider("circle",0,0,40);
    //dino.debug = true;
   
-   gameOver = createSprite(300,150);
+   gameOver = createSprite(width/2,150);
    gameOver.addImage(gameOverI);
   
-   restart = createSprite(300,190);
+   restart = createSprite(width/2,190);
    restart.addImage(restartImagem);
    restart.scale = 0.5;
 }
@@ -104,10 +104,10 @@ if(modoDeJogo ===JOGAR){
      gameOver.visible = false
      restart.visible = false
     
-    if (keyDown("space") && dino.y > 240) {
+    if (touches.lenght > 0 keyDown("space") && dino.y > 240) {
       dino.velocityY = -10 ;
       somPulo.play();
- 
+      touches = [];
   }
   
   
@@ -124,6 +124,7 @@ if(modoDeJogo ===JOGAR){
 }else if(modoDeJogo === ENCERRAR){
      chaoI.velocityX = 0;
      chao.velocityX = 0;
+     dino.velocityY = 0;
   
      grupoObstaculo.setLifetimeEach(-1);
      grupoNuvens.setLifetimeEach(-1);
@@ -173,14 +174,14 @@ if(pontos > 0 && pontos % 100 == 0 ){
 function gerarNuvem(){
  
    if(frameCount %60 == 0){
-     nuvem = createSprite(570,50,60,40);
+     nuvem = createSprite(width,50,60,40);
      nuvem.scale = 0.3;
      nuvem.velocityX = -(4 + pontos/100);
   
      nuvem.addImage(imgNuvem);
      nuvem.y = Math.round(random(20,80));
   
-     nuvem.lifetime = 120;
+     nuvem.lifetime = 1000;
    
      nuvem.depth = dino.depth;
      dino.depth = dino.depth + 1;
@@ -193,7 +194,7 @@ function gerarNuvem(){
 
 function gerarObstaculos (){
    if(frameCount %60 == 0)  {
-     var obstaculo = createSprite (500,250,10,40);
+     var obstaculo = createSprite (width,250,10,40);
      obstaculo.velocityX = -(10 + pontos/100);
      obstaculo.scale = 0.5
     
@@ -215,7 +216,7 @@ function gerarObstaculos (){
          default: break;
             
   }  
-    obstaculo.lifetime = 50;
+    obstaculo.lifetime = 1000;
   
     grupoObstaculo.add(obstaculo);
   } 
